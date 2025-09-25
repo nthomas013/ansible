@@ -1,0 +1,19 @@
+- name: Playbook to understand copy module functions
+  hosts: VM1
+  tasks:
+    - name: Copy module to copy content from one location to another
+      ansible.builtin.copy:
+          src: /home/nthomas/newdir/file1.txt
+          dest: /home/nthomas
+          remote_src: yes
+    - name: Using copy module to add content to the created text file
+      ansible.builtin.copy:
+          content: 'Sample content'
+          dest: /home/nthomas/file2.txt 
+    - name: Using copy module to copy content keeping backup option enabled
+      ansible.builtin.copy:
+          src: /home/nthomas/newdir/file3.txt
+          dest: /home/nthomas/copy
+          backup: yes
+          remote_src: yes       
+  

@@ -1,0 +1,15 @@
+- name: Playbook to display important fact variables
+  hosts: VM1
+  tasks:
+    - name: Debug module to print all variable names
+      debug:
+            msg: |
+                 " The distribution of the Target machine is: {{ansible_distribution}}"
+                 " The distribution version of the Target machine is: {{ansible_distribution_major_version}}"
+                 " The processor for the Target machine is: {{ansible_processor}}"
+                 " The processor cores for the Target machine is: {{ansible_facts ['processor_cores']}}"
+                 " The kernel version for the Target machine is: {{ansible_facts ['kernel']}}"
+                 " The number of connected variables for the Target machine is: {{ansible_facts ['devices']}}"
+                 " The default IPv4 adddress for the Target machine is: {{ansible_facts['default_ipv4']}}"
+                 " The architecture for the Target machine is: {{ansible_architecture}}"  
+
