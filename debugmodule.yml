@@ -1,0 +1,10 @@
+- name: Debug module working
+  hosts: all
+  tasks:
+    - name: Using debug to display all connection variable values
+      debug:
+        msg: |
+          " The ansible username is {{ansible_user}}"
+          " The ansible host IP address is {{ansible_host}}"
+          " The ansible become method is {{ansible_become_method}}"
+          " The ansible become password is {{ansible_become_pass}}"

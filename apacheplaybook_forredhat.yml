@@ -1,0 +1,15 @@
+- name: Installing and working of Apache
+  hosts: VM2
+  tasks:
+    - name: Installing Apache
+      dnf:
+        name: httpd
+        state: present 
+    - name: Starting Apache
+      service:
+        name: httpd
+        enabled: yes
+        state: started
+    - name: Shell to verify that the service is running
+      shell:
+        sudo systemctl status httpd      

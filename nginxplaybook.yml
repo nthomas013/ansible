@@ -1,0 +1,15 @@
+- name: Installing and enabling Nginx service
+  hosts: VM1
+  tasks:
+    - name: Installing nginx service
+      apt:
+        name: nginx
+        state: present
+    - name: Enabling nginx service
+      service:
+        name: nginx
+        enabled: yes
+        state: started
+    - name: Shell to verify that the service is running
+      shell:
+        sudo systemctl status nginx       

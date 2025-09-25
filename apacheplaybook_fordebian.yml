@@ -1,0 +1,20 @@
+- name: Apache installation for debian distro
+  hosts: VM3
+  gather_facts: no  
+  tasks:
+    - name: Installing Apache
+      apt:
+        name: apache2
+        state: present
+    - name: Enabling Apache service
+      service:
+        name: apache2
+        enabled: yes
+        state: started
+    - name: Shell command to verify that the service is running fine
+      shell: |
+        sudo systemctl status apache2      
+    - name: Debug command to display that the service is running fine
+      debug:
+        msg: "Apache service is running fine!!"
+          
