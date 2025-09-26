@@ -11,7 +11,7 @@
         path: /home/nthomas/shahanasdir
         state: directory
         mode: 700
-    - name: To change a symbolic link
+    - name: To create a symbolic link
       file:
         src: /home/nthomas/dirlink
         dest: /home/nthomas/slink
