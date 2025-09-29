@@ -1,0 +1,29 @@
+- name: Installing, enabling Apache2 service and hosting content and also enabling selinux and firewall
+  hosts: VM1
+  tasks:
+    - name: Installing Apache2 service
+      apt:
+          name: apache2
+          state: present
+    - name: Starting and enabling apache2 service
+      service:
+          name: apache2
+          enabled: yes
+          state: started
+    - name: Enable http service in firewall
+      community.general.ufw:
+          rule: allow
+          port: '80'
+          proto: tcp  
+    - name: To place content into the default web root
+      copy:
+          src: /home/nthomas/index.html
+          dest: /var/www/html
+          remote_src: yes
+          group: www-data
+          owner: www-data
+    - name: Restarting Apache service to make the changes are reflected
+      service:
+          name: apache2
+          state: restarted      
+       

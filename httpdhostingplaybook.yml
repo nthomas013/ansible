@@ -1,0 +1,34 @@
+- name: Installing, enabling httpd service and hosting content and also enabling selinux and firewall
+  hosts: VM2
+  tasks:
+    - name: Installing httpd service
+      dnf:
+          name: httpd
+          state: present
+    - name: Starting and enabling httpd service
+      service:
+          name: httpd
+          enabled: yes
+          state: started
+    - name: Enable http and https services in firewall
+      firewalld:
+          service: http
+          state: enabled
+          permanent: true
+          immediate: true      
+    - name: To place content into the default web root
+      copy:
+          src: /home/nthomas/index.html
+          dest: /var/www/html
+          remote_src: yes
+          group: apache
+          owner: apache  
+    - name: Restarting Apache service to make the changes are reflected
+      service:
+          name: httpd
+          state: restarted      
+    - name: Change status in SElinux to permissive to allow content hosting
+      selinux:
+          policy: targeted
+          state: permissive
+       

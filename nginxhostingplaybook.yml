@@ -1,0 +1,34 @@
+- name: Installing, enabling nginx service and hosting content and also enabling selinux and firewall
+  hosts: VM2
+  tasks:
+    - name: Installing nginx service
+      dnf:
+          name: nginx
+          state: present
+    - name: Starting and enabling nginx service
+      service:
+          name: nginx
+          enabled: yes
+          state: started
+    - name: Enabling http service in firewall
+      firewalld:
+          service: http
+          state: enabled
+          permanent: true
+          immediate: true      
+    - name: To place content into the default web root
+      copy:
+          src: /home/nthomas/index.html
+          dest: /usr/share/nginx/html
+          remote_src: yes
+          group: nginx
+          owner: nginx  
+    - name: Restarting Nginx service to make the changes are reflected
+      service:
+          name: nginx
+          state: restarted      
+    - name: Change status in SElinux to permissive to allow content hosting
+      selinux:
+          policy: targeted
+          state: permissive
+       
