@@ -1,0 +1,10 @@
+- name: Playbook to install telnet service 
+  hosts: VM2
+  vars: 
+    utility: mlocate  
+  tasks:
+    - name: Install telnet service
+      dnf:
+        name: "{{utility}}"
+        state: present
+
