@@ -1,0 +1,49 @@
+- name: Installing, enabling nginx service and hosting content and also enabling selinux and firewall
+  hosts: VM2
+  tasks:
+    - name: Installing nginx service
+      dnf:
+          name: nginx
+          state: present
+    - name: Starting and enabling nginx service
+      service:
+          name: nginx
+          enabled: yes
+          state: started
+    - name: Enabling http service in firewall
+      firewalld:
+          service: http
+          state: enabled
+          permanent: true
+          immediate: true      
+    - name: To place content into the default web root
+      copy:
+          src: "{{ playbook_dir }}/websitetemplate"
+          dest: /usr/share/nginx/html
+          group: nginx
+          owner: nginx            
+      notify: Restart nginx service 
+      tags:
+        - copycontent
+        - restart  
+    - name: Using template module to copy configuration
+      template:
+          src: "{{ playbook_dir }}/nginxhosting.conf.j2"
+          dest: /etc/nginx/conf.d/nginxhosting.conf
+      notify: Restart nginx service  
+      tags:
+        - template
+        - restart  
+    - name: Change status in SElinux to permissive to allow content hosting
+      selinux:
+          policy: targeted
+          state: permissive
+    - name: Using Debug module to print that the hosting setup is complete
+      debug:
+        msg: "Nginx has been hosted successfully. You can use the server IP address 172.16.99.233 to view the content"      
+  handlers:
+    - name: Restart nginx service
+      service:
+          name: nginx
+          state: restarted    
+       

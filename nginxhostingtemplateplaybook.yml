@@ -1,0 +1,28 @@
+- name: Hosting content on Ubuntu VM via nginx using template module to copy configuration file
+  hosts: VM1
+  tasks:
+    - name: Installing nginx service on target machine
+      apt:
+        name: nginx
+        state: present
+    - name: Starting and enabling nginx service
+      service:
+        name: nginx
+        enabled: yes
+        state: started
+    - name: Copying index.html from master to target machine
+      copy:
+        src: "{{ playbook_dir }}/index.html"
+        dest: /usr/share/nginx/html/
+    - name: Using template module to copy configuration files to target machine
+      template:
+        src: "{{ playbook_dir }}/hosting.conf.j2"
+        dest: /etc/nginx/conf.d/hosting.conf 
+    - name: Using template module to display variables
+      template:
+        src: "{{ playbook_dir }}/variable.j2"
+        dest: /home/nthomas/variable
+    - name: Restart nginx service to make sure these changes are reflected
+      service:
+        name: nginx
+        state: restarted       

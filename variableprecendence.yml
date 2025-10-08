@@ -1,0 +1,12 @@
+- name: Playbook that takes various variables and tests their precedence
+  hosts: VM1
+  vars:
+    utility: "I am from PLAYBOOK"
+  tasks:
+    - name: Show one of the values from gather facts (fact variable)
+      debug:
+        msg: "The number of cores of the target machine is {{ansible_processor_cores}}" 
+    - name: Printing utility variable value
+      debug:  
+        msg: 
+             "The value of utility variable is {{utility}}"  

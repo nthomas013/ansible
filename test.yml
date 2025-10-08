@@ -1,0 +1,9 @@
+- name: Playbook to display important fact variables
+  hosts: VM1
+  tasks:
+    - name: Debug module to print all variable names
+      debug:
+            msg: |
+                 " The distribution of the Target machine is: {{ansible_distribution}}"
+                 " The distribution version of the Target machine is: {{ansible_distribution_major_version}}"
+                 " The processor cores for the Target machine is: {{ansible_facts ['processor_cores']}}"

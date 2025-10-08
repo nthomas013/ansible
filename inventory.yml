@@ -1,4 +1,6 @@
 all:
+  vars:
+    utility: "I am from INVENTORY"
   hosts:
     VM1:
       ansible_user: nthomas
@@ -8,6 +10,7 @@ all:
       ansible_become_pass: Nevin@123 
     VM2:
       ansible_user: nthomas
+      #ansible_host: 192.168.29.151
       ansible_host: 172.16.99.233
       ansible_become: yes
       ansible_become_method: sudo

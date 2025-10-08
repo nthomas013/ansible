@@ -1,0 +1,38 @@
+- name: Playbook to understand block list
+  hosts: VM2
+  tasks:
+    - name: Installing vim, curl and mlocate packages
+      dnf:
+        name: "{{ item }}"
+        state: present  
+      loop:
+        - vim
+        - curl
+        - mlocate
+    - name: Debug module to print vim, curl and mlocate packages
+      debug:
+        msg: |
+          I installed "{{ item }}"
+      loop:
+        - vim
+        - curl
+        - mlocate
+
+- name: Playbook to understand block list as a playbook variable
+  hosts: VM2
+  gather_facts: no  
+  vars: 
+    modules:
+      - telnet
+      - bind
+  tasks:
+    - name: Install the mentioned playbook variable packages
+      dnf:
+        name: "{{ modules }}" 
+        state: present
+      loop: "{{ modules }}"
+    - name: Debug module to print the playbook variable packages
+      debug:
+        msg: "The installed packages are {{ item }}"
+      loop: "{{ modules }}"    
+            

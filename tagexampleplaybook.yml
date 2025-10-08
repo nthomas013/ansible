@@ -1,0 +1,25 @@
+ - name: Playbook that utilizes tags concept in Ansible
+   hosts: VM2
+   vars:
+     packages: 
+       - vim
+       - mlocate  
+   tasks: 
+     - name: Install chrony package onto AlmaLinux target machine
+       dnf:
+         name: chrony
+         state: present    
+       when:
+         - ansible_hostname == "myfirstvm"
+         - ansible_os_family == "RedHat"
+       tags:
+         - chrony
+         - install  
+     - name: Installing vim and mlocate packages onto the Almalinux target machine
+       dnf:
+         name: "{{ item }}"
+         state: present
+       loop: "{{ packages }}"
+       tags:
+         - install
+         - packages    
