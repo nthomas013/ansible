@@ -1,0 +1,40 @@
+- name: Install and enable nginx and chrony services on AlmaLinux target machine
+  hosts: VM2
+  gather_facts: yes 
+  vars:
+    test_vars: nevin  
+  tasks:
+    - name: Install nginx service on the target machine
+      package:
+        name: "{{ package }}"
+        state: "{{ state1 }}"
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == 'AlmaLinux' 
+    - name: Start and enable nginx service
+      service:
+        name: "{{ service }}"
+        enabled: "{{ enable }}"
+        state: "{{ state2 }}"
+      when:
+        - ansible_host == "172.16.99.233"
+        - ansible_hostname == "myfirstvm"   
+    - name: Install Chrony service on the target machine
+      package:
+        name: "{{ cpackage }}"
+        state: "{{ cstate1 }}"
+      when:
+        - ansible_os_family == "RedHat"
+        - ansible_host == "172.16.99.233"
+    - name: Start and enable chrony service
+      service:
+        name: "{{ cservice }}"
+        state: "{{ cstate2 }}"
+        enabled: "{{ enable }}"     
+      when:
+        - ansible_distribution == "AlmaLinux"
+        - ansible_architecture == "x86_64"   
+        - ansible_user == "nthomas" 
+    - name: Using debug module to print playbook variable value
+      debug:
+        msg: "The playbook variable value is {{ test_vars }}"

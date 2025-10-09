@@ -1,0 +1,10 @@
+package: nginx
+service: nginx
+state1: present
+state2: started
+enable: yes
+cpackage: chrony
+cstate1: present
+cservice: chronyd
+cstate2: started 
+test_vars: shahanas 

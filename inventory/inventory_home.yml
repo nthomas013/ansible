@@ -1,0 +1,35 @@
+all:
+  vars:
+    utility: "I am from INVENTORY"
+  hosts:
+    VM1:
+      ansible_user: nthomas
+      ansible_host: 172.16.44.130
+      ansible_become: yes
+      ansible_become_method: sudo
+      ansible_become_pass: Nevin@123 
+    VM2:
+      ansible_user: nthomas
+      ansible_host: 192.168.29.151
+      ansible_become: yes
+      ansible_become_method: sudo
+      ansible_become_pass: Nevin@123
+    VM3:
+      ansible_user: synnefo
+      ansible_host: 172.16.88.94
+      ansible_become: yes
+      ansible_become_method: sudo
+      ansible_become_pass: asd123.
+  children:
+    group1:
+      hosts:
+        VM1:
+        VM2:
+    group2:
+      hosts:
+        VM1:
+        VM3:
+    group3:
+      children:
+        group1:
+        group2:  
